@@ -1,9 +1,13 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import GoogleProvider from 'next-auth/providers/google';
+import { useSession } from 'next-auth/client';
 
 export default function Home() {
+  const { data: session } = useSession();
+  if (session) {
+    return <div>signed in</div>;
+  }
   return (
     <div className={styles.container}>
       <Head>
