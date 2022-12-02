@@ -1,34 +1,67 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# game-tables
 
-## Getting Started
+App is still in progress. Most of the backend parts are implemented, i'm still not implementing most of the frontend parts.
 
-First, run the development server:
+### Description
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+App in which user can build tables for their games (darts, chess, etc.). Tables are used for real time records of the game/tournament and easily managable. User can view his history of games in his profile. User can create reusable team that will have it's own statistics.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Local setup
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+You need to setup google client id and google client secret for oauth in your **.env** file with your database url as well as api auth url.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+GOOGLE_CLIENT_ID
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+GOOGLE_CLIENT_SECRET
 
-## Learn More
+DATABASE_URL
 
-To learn more about Next.js, take a look at the following resources:
+NEXTAUTH_URL='http://localhost:3000/api/auth'
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technologies
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**FE** nextjs (animations-GSAP [green sock])
 
-## Deploy on Vercel
+**DB** postgreSQL
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**DB query tool** Prisma
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**hosting** heroku (to be done)
+
+## What is done so far
+
+I've done signup + signin functionlaity.
+
+I've done the functionality of creating a group of people that is assignable to a one game at a time.
+
+You can play darts and save your progress. I have to implement to save the player that is on turn in the time of the save.
+
+## Games
+
+In this section I will try to write the description how the games are being processed by app.
+
+### Darts
+
+User can play 301, 501 and 701 darts with ending on single, double or triple! User can input the points in number input as well as clicking on dart table
+
+#### Darts flow
+
+input = gameData
+
+1. Put current state of the game to the state of Darts component
+   1. Game already played before
+      1. Indicate who is on turn
+      2. Once user is ready, he can start it
+   2. Game is being played for the first time
+      1. Choose options for the game of Darts (301, 501, etc..)
+      2. User can make order of the players on his own
+      3. Once user is ready, he can start the game (game will be saved to the database)
+2. Render table with all the players and their current score.
+3. User can put in points current player threw
+4. Points in input will substract current players points
+5. Player after current player will be on turn.
+6. If this was the last player of round, go to step 7 otherwise repeat from 3.
+7. End of turn procedure:
+   1. save current player points to gameHistory,
+   2. save gameHistory to database,
+   3. go to step 3.
