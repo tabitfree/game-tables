@@ -20,6 +20,29 @@ DATABASE_URL
 
 NEXTAUTH_URL='http://localhost:3000/api/auth'
 
+Download project dependencies
+```
+yarn install
+```
+
+To setup prisma:
+```
+prisma generate
+prisma migrate dev
+```
+
+To run the app locally:
+```
+yarn dev
+```
+
+To setup prisma and start prisma studio: 
+```
+yarn prisma generate
+yarn prisma migrate dev
+yarn prisma studio
+```
+
 ## Technologies
 
 **FE** nextjs (animations-GSAP [green sock])
