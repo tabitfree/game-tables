@@ -14,3 +14,154 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.btn {
+  cursor: pointer;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 10px;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.nav .btn {
+  margin-right: 20px;
+}
+
+.pic-wrap {
+  height: 40px;
+}
+
+.pic-wrap:hover {
+  outline: solid 1px blue;
+  border-radius: 50%;
+}
+
+.group-wrap {
+  margin-bottom: 30px;
+}
+
+.groups-selector,
+.games-selector {
+  flex-wrap: wrap;
+}
+
+input[name='selected_group'],
+input[name='selected_game'] {
+  display: none;
+}
+
+.group label,
+.game-type label {
+  display: block;
+  position: relative;
+  background: #fff;
+  border: 1px solid #000;
+  z-index: 0;
+}
+
+.group label::before,
+.group label::after,
+.game-type label::before,
+.game-type label::after {
+  content: '';
+  position: absolute;
+  background: #fff;
+  z-index: -1;
+}
+
+.group label::before,
+.game-type label::before {
+  width: calc(100% + 4px);
+  height: 50%;
+  top: 50%;
+  left: calc(50% + 2px);
+  transform: translate(calc(-50% - 2px), -50%);
+  transition: height 0.5s ease;
+}
+
+.group label::after,
+.game-type label::after {
+  height: calc(100% + 4px);
+  width: 80%;
+  top: calc(50% + 2px);
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 2px));
+  transition: width 0.5s ease;
+}
+
+input[type='radio']:checked + label {
+  background: #f3f3f3;
+}
+
+input[type='radio']:checked + label::before {
+  height: 0;
+  background: #f3f3f3;
+}
+
+input[type='radio']:checked + label::after {
+  width: 0;
+  background: #f3f3f3;
+}
+
+input[type='radio'] + label {
+  padding: 10px;
+}
+
+.group,
+.game-type {
+  position: relative;
+  margin-right: 20px;
+  width: calc(33% - 10px);
+  margin-bottom: 20px;
+}
+
+.group:nth-child(3n) {
+  margin-right: 0;
+}
+
+.flex {
+  display: flex;
+}
+
+main {
+  height: 100vh;
+}
+
+/* DARTS ----------------------------------- */
+.dart {
+  transition: all 0.3s ease;
+}
+
+.dart path {
+  fill: #000;
+}
+
+.dart.selected {
+  transform: scale(1.3);
+}
+
+.dart.active path {
+  fill: #0000ff;
+}
