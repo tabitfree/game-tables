@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  games         Game[]    @relation
+  groups        Group[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Game {
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  author         User     @relation(fields: [authorId], references: [id])
+  authorId       String
+  type           String   @default("")
+  gameInfo       Json?
+  finished       Boolean  @default(false)
+  started        Boolean  @default(false)
+  group          Group    @relation(name: "GroupsGames", fields: [groupId], references: [id])
+  groupId        Int
+  activeGroup    Group?   @relation(name: "Active")
+  winner         Player?  @relation(fields: [winnerId], references: [id])
+  winnerId       Int?
+  playerOnTurn   Player?  @relation(name: "OnTurn", fields: [playerOnTurnId], references: [id])
+  playerOnTurnId Int?     @unique
+  gameHistory    Json?
+}
+
+model Group {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  name         String   @unique
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId     String
+  players      Player[] @relation
+  games        Game[]   @relation(name: "GroupsGames")
+  activeGame   Game?    @relation(name: "Active", fields: [activeGameId], references: [id], onDelete: SetDefault)
+  activeGameId Int?     @unique
+}
+
+model Player {
+  id                   Int    @id @default(autoincrement())
+  name                 String
+  points               Int? //current points in the group (win game, get one point)
+  participateIn        Group? @relation(fields: [pariticpateInGroupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pariticpateInGroupId Int?
+  score                Int? //current score in the current game
+  won                  Game[] @relation
+  isOnTurn             Game?  @relation(name: "OnTurn")
+}
