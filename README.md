@@ -1,8 +1,10 @@
 # game-tables
 
-App is still in progress. Most of the backend parts are implemented, i'm still not implementing most of the frontend parts.
+App is still in progress. Most of the backend parts are implemented, i'm still not implementing most of the frontend parts. But it is functional.
 
 ### Description
+
+pages available: /, /game-creator, /profile
 
 App in which user can build tables for their games (darts, chess, etc.). Tables are used for real time records of the game/tournament and easily managable. User can view his history of games in his profile. User can create reusable team that will have it's own statistics.
 
